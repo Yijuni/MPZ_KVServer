@@ -129,11 +129,11 @@ void KVRaft::RequestVote(google::protobuf::RpcController *controller, const ::kv
     if (response->votegranted())
     {
         voterFor_myj = request->candidateid();
-        electionTimer_myj->RandomReset(electionTimeout_myj, electionTimeout_myj * 2);
         LOG_INFO("server[%s]>>给server[%s]投票", name_myj.c_str(), request->candidateid().c_str());
     }
     currentTerm_myj = request->term();
     status_myj = FOLLOWER;
+    electionTimer_myj->RandomReset(electionTimeout_myj, electionTimeout_myj * 2);
     response->set_term(currentTerm_myj);
 
     std::string snapshotdata = persister_myj->ReadSnapshot();
